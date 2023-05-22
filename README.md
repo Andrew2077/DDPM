@@ -3,7 +3,6 @@
 
 In-progress:
 
-
 simple unet performance - still in progress
 -   
 
@@ -14,6 +13,8 @@ simple unet performance - still in progress
 
 
 ## Milestones
+- [x] simple unet
+- [x] training pipeline
 - [ ] better performance
 - [ ] attention based U-net
 - [ ] better sampling pipeline
