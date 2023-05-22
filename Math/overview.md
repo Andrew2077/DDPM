@@ -39,6 +39,6 @@ contional gaussian distribution with a mean dependent on the previous timestep i
       x_t = \sqrt{\bar{\alpha_t}}x_0 + \sqrt{1-\alpha_t}
     $$
 
-  $$
+
 
 [more details](https://www.youtube.com/watch?v=HoKDTa5jHvg&ab_channel=Outlier)
