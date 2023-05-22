@@ -6,7 +6,7 @@ In-progress:
 simple unet performance - still in progress
 -   
 
-- These are the results of only `3 days` learning of how DDPM works and how to implement it in pytorch 
+- These are the results of only early stage learning
 - it's trained to predict FashionMNIST dataset from random noise
   
 <img src="best_model_sampling.gif" width="480" height="480" />
