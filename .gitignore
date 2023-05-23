@@ -10,8 +10,6 @@ Math
 *.svg
 Notebooks
 results
-att_diffuse.py
-DDUN/ATTUNET
 outlier_implementation.ipynb
 Brain_puler_implementation.ipynb
 models/attunet_DDPM
