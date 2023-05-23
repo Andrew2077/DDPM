@@ -2,7 +2,8 @@
 
 Pytorch implementation pipeline for denoising defusion probabilistic models
 
-[Math-statistics walkthrough](https://scrawny-toad-78d.notion.site/Hopefully-a-deeper-understanding-cbf1ab8b6dea4df29cc0284f17223986)
+
+[My perosnal notes](https://scrawny-toad-78d.notion.site/Hopefully-a-deeper-understanding-cbf1ab8b6dea4df29cc0284f17223986) on the Math-statistics behind Denoising Diffusion Probabilistic Models
 
 In-progress:
 
@@ -27,11 +28,11 @@ at epoch 19 - loss improved to 0.047036067663133146
 ++++++++++++++++++++++++++++++++++++++++++++++++++++
 ```
 ## Results
-- Denoise back a generated noise over 999 steps
+- Apply 999 denoising steps to the image
 - this gif is slightly manipulated to show the denoising process faster, as noise occupy most of the frames duo to `linear beta schedule`
 
 
-<img src="SDDPM_results.gif" width="480" height="480" />
+<img src="SDDPM_results.gif" width="640" height="640" />
 
 ## Milestones
 

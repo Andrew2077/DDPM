@@ -142,7 +142,7 @@ class MarkovDDPM:
                 frame = np.squeeze(frame, axis=2)
                 # * converting to PIL image
                 frame = Image.fromarray(frame)
-                frame = frame.resize((512, 512))
+                frame = frame.resize((1024, 1024))
                 frame = np.array(frame)
                 frames.append(frame)
         for i in range(18):
