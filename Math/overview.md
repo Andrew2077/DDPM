@@ -36,7 +36,7 @@ contional gaussian distribution with a mean dependent on the previous timestep i
     where $\alpha_t$ is $1 - {\beta_t}$ which is the total amount of image left after all the noise is added
     , $\bar{\alpha_t}$ is the cumulative sum of the reciprocal of $\alpha_t$ from $t=1$ to $t=T$
     $$
-      x_t = \sqrt{\bar{\alpha_t}}x_0 + \sqrt{1-\alpha_t}
+      x_t = \sqrt{\bar{\alpha_t}}x_0 + \sqrt{1-\bar{\alpha_t}}*\epsilon
     $$
 
 

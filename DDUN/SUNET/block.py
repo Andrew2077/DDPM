@@ -11,7 +11,7 @@ class Block(nn.Module):
         stride=1,
         padding=1,
         activation=None,
-        normaliza=True,
+        normalizer=True,
     ):
         super().__init__()
 
@@ -20,10 +20,11 @@ class Block(nn.Module):
         self.conv2 = nn.Conv2d(out_c, out_c, kernel_size, stride, padding)
         # * sigmoid linear unit SiLU : x * sigmoid(x)
         self.activation = nn.SiLU() if activation is None else activation
-        self.norm = normaliza
+        self.norm = normalizer
 
     def forward(self, x):
         # * normalizing over the channels if needed
+
         out = self.layer_norm(x) if self.norm else x
         out = self.conv1(out)
         out = self.activation(out)

@@ -6,3 +6,9 @@ gifs
 *.zip
 DDUN/old
 *.onnx
+Math
+*.svg
+Notebooks
+results
+DDUN/ATTUNET/__pycache__
+DDUNSUNET/__pycache__

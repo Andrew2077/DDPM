@@ -5,22 +5,20 @@ from DDUN.SUNET.embedding import SinsuoidalPostionalEmbedding
 from DDUN.SUNET.block import Block
 
 
-
-
-
-
 class Unet(nn.Module):
-    def __init__(self, n_steps=100, time_emb_dim=100, device="cpu"):
+    def __init__(self, noise_steps=1024, time_emb_dim=256, device=None):
         super().__init__()
-
+        self.device = device
         # * sinusoidal positional embedding
-        self.time_embed = nn.Embedding(n_steps, time_emb_dim, device=device)
-        self.time_embed.weight.data = SinsuoidalPostionalEmbedding(time_emb_dim)(torch.arange(n_steps, device=device), device)
+        self.time_embed = nn.Embedding(noise_steps, time_emb_dim, device=device)
+        self.time_embed.weight.data = SinsuoidalPostionalEmbedding(time_emb_dim)(
+            torch.arange(noise_steps, device=device), device
+        )
         self.time_embed.requires_grad_(False)
 
         # * Brain_puler Embedding
-        # self.time_embed = nn.Embedding(n_steps, time_emb_dim)
-        # self.time_embed.weight.data = sinusoidal_embedding(n_steps, time_emb_dim)
+        # self.time_embed = nn.Embedding(noise_steps, time_emb_dim)
+        # self.time_embed.weight.data = sinusoidal_embedding(noise_steps, time_emb_dim)
         # self.time_embed.requires_grad_(False)
 
         ################### First Half of the U-net ###################
@@ -130,7 +128,7 @@ class Unet(nn.Module):
             # * (batch_size, 10, 28, 28) to (batch_size, 10, 28, 28)
             Block(shape=(20, 28, 28), in_c=20, out_c=10),
             Block(shape=(10, 28, 28), in_c=10, out_c=10),
-            Block(shape=(10, 28, 28), in_c=10, out_c=10, normaliza=False),
+            Block(shape=(10, 28, 28), in_c=10, out_c=10, normalizer=False),
         )
 
         # * output convolution layer
@@ -142,12 +140,14 @@ class Unet(nn.Module):
             nn.Linear(dim_in, dim_out),
             nn.ReLU(),
             nn.Linear(dim_out, dim_out),
-        )
+        ).to(self.device)
 
     def forward(self, x, t):
-        t = t.long()
+        
+        t = t.long().to(self.device)
+        x = x.to(self.device)
         t = self.time_embed(t)
-        #t = t.to(x.device).long()
+        # t = t.to(x.device).long()
         n = len(x)  # * batch size
 
         # * x + te1(t) where te1 is the time embedding for the first half of the U-net
@@ -155,6 +155,13 @@ class Unet(nn.Module):
 
         # * (batch_size, 1, 28, 28) to (batch_size, 10, 28, 28)
         # time_embedded = self.te1(t).reshape(n, -1, 1, 1)
+        
+
+        assert (
+            len(self.te1(t).reshape(n, -1, 1, 1).shape) == len(x.shape)
+            and self.te1(t).reshape(n, -1, 1, 1).shape[0] == x.shape[0]
+        ), "shape of the time embedding and the input image should be the same"
+
         out1 = self.block1(x + self.te1(t).reshape(n, -1, 1, 1))
 
         # * (batch_size, 10, 28, 28) to (batch_size, 20, 14, 14)
@@ -186,8 +193,10 @@ class Unet(nn.Module):
 
         # *model output
         skip3 = torch.cat((out1, self.up3(out5)), dim=1)  # * (batch_size, 20, 28, 28)
-        out6 = self.out_block(skip3 + self.te_out(t).reshape(n, -1, 1, 1)) #* (batch_size, 10, 28, 28)
+        out6 = self.out_block(
+            skip3 + self.te_out(t).reshape(n, -1, 1, 1)
+        )  # * (batch_size, 10, 28, 28)
 
-        diffused_batch = self.conv_out(out6) #* (batch_size, 1, 28, 28)
-
+        #* predicted noise
+        diffused_batch = self.conv_out(out6)  # * (batch_size, 1, 28, 28)
         return diffused_batch

@@ -1,8 +1,10 @@
-import torch
-import matplotlib.pyplot as plt
-import numpy as np
+
+
 import einops
 import imageio
+import matplotlib.pyplot as plt
+import numpy as np
+import torch
 
 
 def show_images(images, title=""):
@@ -41,14 +43,15 @@ def show_first_batch(loader):
         break
     
 
-from typing import List, Tuple, Optional
+from typing import List, Optional, Tuple
+
 
 def show_forward(
     ddpm,
     loader,
     device,
     show_original=True,
-    noise_percent: Optional[List[int]] = [0.25, 0.5, 0.75, 1],
+    noise_percent: Optional[List[float]] = [0.25, 0.5, 0.75, 1],
 ):
     # Showing the forward process
     for batch in loader:
@@ -69,7 +72,7 @@ def show_forward(
             show_images(
                 # images= ddpm(imgs.to(device),[int(percent * ddpm.n_steps) - 1 for _ in range(len(imgs))]),
                 images=images_,
-                title=f"DDPM Noisy images {int(percent * 100)}%",
+                title=f"DDPM Noisy images {(percent * 100)}%", 
             )
         break
 
@@ -135,7 +138,7 @@ def generate_new_images(
     for i in range(int(len(frames)/5)):
         frames.append(frames[-1])
     #* saving the gif
-    imageio.mimsave(gif_name, frames, format = 'GIF-PIL', fps = 90)
+    imageio.mimsave(gif_name, frames, format = 'GIF-PIL', fps = 90) #type: ignore
     
     # return frames
     #print(type(frames))
