@@ -14,3 +14,6 @@ DDUN/ATTUNET/__pycache__
 DDUNSUNET/__pycache__
 att_diffuse.py
 DDUN/ATTUNET
+outlier_implementation.ipynb
+Brain_puler_implementation.ipynb
+models\attunet_DDPM
