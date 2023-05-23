@@ -37,8 +37,10 @@ at epoch 19 - loss improved to 0.047036067663133146
 ## Milestones
 
 - [x] simple unet
+- [ ] attention based U-net - partially done
+- [ ] Conditional DDPM
 - [x] training pipeline
+- [ ] CLI interface - partially done
+- [x] linear beta scheduler
 - [ ] Cosine beta scheduler
-- [ ] better performance
-- [ ] attention based U-net
 - [ ] better sampling pipeline
