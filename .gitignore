@@ -12,3 +12,5 @@ Notebooks
 results
 DDUN/ATTUNET/__pycache__
 DDUNSUNET/__pycache__
+att_diffuse.py
+DDUN/ATTUNET
