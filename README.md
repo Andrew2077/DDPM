@@ -5,7 +5,7 @@ Pytorch implementation pipeline for denoising defusion probabilistic models
 
 [My perosnal notes](https://scrawny-toad-78d.notion.site/Hopefully-a-deeper-understanding-cbf1ab8b6dea4df29cc0284f17223986) on the Math-statistics behind Denoising Diffusion Probabilistic Models
 
-In-progress:
+### In-progress:
 
 simple unet performance - still in progress
 
