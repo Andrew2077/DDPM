@@ -18,6 +18,7 @@ class MarkovDDPM:
         end=2e-2,
         image_ch=1,
         image_size=28,
+        num_classes = None,
         device=None,
     ):
         ################ Define the process -- Outlier################
@@ -57,7 +58,7 @@ class MarkovDDPM:
         return x_t, epsilon
 
     # @torch.no_grad()
-    def generate(self, model, x_shape, save_gen_hist=False):
+    def generate(self, model, x_shape, labels = None, save_gen_hist=False,  cfg_scale=3):
         model.eval()
         if save_gen_hist:
             gen_hist = []
@@ -69,8 +70,16 @@ class MarkovDDPM:
                 # * create a time tensor for time t, with shape (batch_size, 1)
                 # t = (torch.ones(torch.tensor(x_shape[0])) * i).long().to(self.device)
                 t = (torch.ones(x_shape[0], 1) * i).to(self.device).long()
+                
+                
                 # * predicted noise
-                predicted_noise = model(x, t)
+
+                predicted_noise = model(x, t, labels)
+                if cfg_scale > 0:
+                    uncodtional_prediction = model(x, t, labels=None)
+                    predicted_noise = torch.lerp(predicted_noise, uncodtional_prediction, cfg_scale)
+
+                
                 # * retrieve alpha, alpha_hat, beta for time t
                 # * reshape them to (batch_size, 1, 1, 1)
                 alpha = self.alpha[i].repeat(x_shape[0], 1, 1, 1)

@@ -110,7 +110,7 @@ def train(args):
             #t = torch.randint(0, diffusion.noise_steps, (images.shape[0],)).to(device)
             
             x_t, real_noise = diffusion.noise_images(images, t)
-            noise = model(images, x_t)
+            noise = model(images, t)
             
             loss = mse(noise, real_noise)
             optimizer.zero_grad()

@@ -6,9 +6,10 @@ from DDUN.SUNET.block import Block
 
 
 class Unet(nn.Module):
-    def __init__(self, noise_steps=1024, time_emb_dim=256, device=None):
+    def __init__(self, noise_steps=1024, time_emb_dim=256, num_classes = None, device=None):
         super().__init__()
         self.device = device
+        self.time_emb_dim = time_emb_dim
         # * sinusoidal positional embedding
         self.time_embed = nn.Embedding(noise_steps, time_emb_dim, device=device)
         self.time_embed.weight.data = SinsuoidalPostionalEmbedding(time_emb_dim)(
@@ -134,6 +135,8 @@ class Unet(nn.Module):
         # * output convolution layer
         # * (batch_size, 10, 28, 28) to (batch_size, 1, 28, 28)
         self.conv_out = nn.Conv2d(10, 1, 3, 1, 1)
+        
+        #* classifier embedding
 
     def _make_te(self, dim_in, dim_out):
         return nn.Sequential(
@@ -142,11 +145,17 @@ class Unet(nn.Module):
             nn.Linear(dim_out, dim_out),
         ).to(self.device)
 
-    def forward(self, x, t):
+    def forward(self, x, t, labels = None):
+    
         
         t = t.long().to(self.device)
         x = x.to(self.device)
         t = self.time_embed(t)
+        
+        if labels is not None:
+            # print(type(labels))
+            # print(type(self.time_emb_dim))
+            labels =  nn.Embedding(labels, self.time_emb_dim).to(self.device)
         # t = t.to(x.device).long()
         n = len(x)  # * batch size
 
