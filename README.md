@@ -34,13 +34,38 @@ at epoch 19 - loss improved to 0.047036067663133146
 
 <img src="SDDPM_results.gif" width="640" height="640" />
 
-## Milestones
+## Roadmap
 
-- [x] simple unet
-- [ ] attention based U-net - partially done
-- [ ] Conditional DDPM
-- [x] training pipeline
-- [ ] CLI interface - partially done
+### DDPM Methodology
 - [x] linear beta scheduler
 - [ ] Cosine beta scheduler
-- [ ] better sampling pipeline
+- [X] Classifier free guided diffusion
+- [ ] Moving average of the model weights
+
+### Pipleline
+- [x] training pipeline
+- [X] sampling pipeline
+- [ ] Complete Model creation pipeline
+- [ ] CLI interface
+### Model architecture
+- [x] simple unet
+- [ ] attention based U-net
+- [ ] Conditional DDPM
+### Loss
+- [x] MSE
+- [ ] MSE + Perceptual loss
+- [ ] MSE + Perceptual loss + GAN loss
+### Dataset
+- [x] FashionMNIST
+- [ ] CIFAR10
+- [ ] CelebA
+### Metrics & Evaluation
+- [ ] FID
+- [ ] IS
+
+### Bonus
+- [ ] Re-implement with Ivy
+- [ ] improved DDPM - openai 2nd paper 
+- [ ] DDPM with VQ-VAE
+- [ ] GAN based DDPM
+- [ ] GANs 
